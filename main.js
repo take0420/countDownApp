@@ -5,13 +5,21 @@
     // 残り時間 = 終了時刻 - 現在時刻
     let countdown = endTime - new Date().getTime();
 
-    // タイマーの終了
+    // (3) タイマーの終了
     if (countdown < 0) {
       clearInterval(intervalId);
       countdown = 3 * 1000;
     }
 
-    timer.textContent = countdown;
+    const totalSeconds = Math.floor(countdown / 1000);
+    // 80秒 → 1分20秒
+    // 80 ÷ 60 = 1 余り 20
+    // 80 / 60 = 1.33333.... → 1
+    // 80 % 60 = 20
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    timer.textContent = `${minutes}:${seconds}`;
   }
 
   const timer = document.getElementById('timer');
@@ -19,11 +27,11 @@
   let endTime;
   let intervalId;
 
-  // タイマーの終了時刻を求める
+  // (1) 終了時刻を求める
   btn.addEventListener('click', () => {
     endTime = new Date().getTime() + 3 * 1000;
 
-    // 残り時間を表示する
+    // (2) 残り時間を求める
     intervalId = setInterval(check, 100);
   });
 }
